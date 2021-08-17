@@ -1,12 +1,11 @@
-package ru.sbrf.shareholderbot;
+package ru.sbrf.shareholderbot.botapi;
 
 import lombok.Setter;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.sbrf.shareholderbot.botapi.facade.TelegramFacade;
 
 @Setter
 public class ShareholderTelegramBot extends TelegramWebhookBot {
@@ -14,8 +13,11 @@ public class ShareholderTelegramBot extends TelegramWebhookBot {
     private String botUserName;
     private String botToken;
 
-    public ShareholderTelegramBot(DefaultBotOptions options) {
+    private TelegramFacade telegramFacade;
+
+    public ShareholderTelegramBot(DefaultBotOptions options, TelegramFacade telegramFacade) {
         super(options);
+        this.telegramFacade = telegramFacade;
     }
 
     @Override
@@ -30,17 +32,7 @@ public class ShareholderTelegramBot extends TelegramWebhookBot {
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        if (update.getMessage() != null && update.getMessage().hasText()) {
-
-            Message message = update.getMessage();
-            SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(String.valueOf(message.getChatId()));
-            if (message.hasText()) {
-                sendMessage.setText(update.getMessage().getText());
-                return sendMessage;
-            }
-        }
-        return null;
+        return telegramFacade.handleUpdate(update);
     }
 
     @Override
