@@ -6,7 +6,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.sbrf.shareholderbot.botapi.botstate.BotState;
 import ru.sbrf.shareholderbot.botapi.botstate.BotStateMessageContext;
-import ru.sbrf.shareholderbot.cache.UserDataCache;
+import ru.sbrf.shareholderbot.model.UserDataCache;
+
+import java.util.concurrent.ExecutionException;
 
 
 @AllArgsConstructor
@@ -15,7 +17,7 @@ public class InputMessageFacade {
     private UserDataCache userDataCache;
     private BotStateMessageContext botStateMessageContext;
 
-    public SendMessage handleInputMessage(Message message) {
+    public SendMessage handleInputMessage(Message message) throws ExecutionException, InterruptedException {
         String inputMessage = message.getText();
         BotState botState;
         SendMessage replyMessage;
@@ -32,6 +34,9 @@ public class InputMessageFacade {
                 break;
             case "Посмотреть список компаний":
                 botState = BotState.SHOW_COMPANY;
+                break;
+            case "Посмотреть цену акций всех компаний":
+                botState = BotState.SHOW_SHARES;
                 break;
             default:
                 botState = BotState.SHOW_MENU;

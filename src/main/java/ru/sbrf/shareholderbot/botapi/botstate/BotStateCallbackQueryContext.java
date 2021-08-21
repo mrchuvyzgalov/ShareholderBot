@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import ru.sbrf.shareholderbot.botapi.callbackqueryhandlers.CallbackQueryHandler;
-import ru.sbrf.shareholderbot.cache.UserDataCache;
 import ru.sbrf.shareholderbot.service.MainMenuService;
 
 import java.util.HashMap;

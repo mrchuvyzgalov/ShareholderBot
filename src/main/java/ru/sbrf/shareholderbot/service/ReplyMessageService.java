@@ -14,8 +14,4 @@ public class ReplyMessageService {
     public SendMessage getReplyMessage(long chatId, String replyMessage) {
         return new SendMessage(chatId, localeMessageService.getMessage(replyMessage));
     }
-
-    public SendMessage getReplyMessage(long chatId, String replyMessage, Object... args) {
-        return new SendMessage(chatId, localeMessageService.getMessage(replyMessage, args));
-    }
 }

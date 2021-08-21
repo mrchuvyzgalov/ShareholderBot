@@ -1,6 +1,5 @@
 package ru.sbrf.shareholderbot.service;
 
-import org.checkerframework.checker.units.qual.K;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -27,15 +26,14 @@ public class MainMenuService {
 
         KeyboardRow row1 = new KeyboardRow();
         KeyboardRow row2 = new KeyboardRow();
-        KeyboardRow row3 = new KeyboardRow();
 
         row1.add(new KeyboardButton("Добавить компанию"));
-        row2.add(new KeyboardButton("Удалить компанию"));
-        row3.add(new KeyboardButton("Посмотреть список компаний"));
+        row1.add(new KeyboardButton("Удалить компанию"));
+        row2.add(new KeyboardButton("Посмотреть список компаний"));
+        row2.add(new KeyboardButton("Посмотреть цену акций всех компаний"));
 
         keyboard.add(row1);
         keyboard.add(row2);
-        keyboard.add(row3);
 
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;

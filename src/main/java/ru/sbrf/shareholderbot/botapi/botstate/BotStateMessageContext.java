@@ -8,6 +8,7 @@ import ru.sbrf.shareholderbot.botapi.messagehandlers.InputMessageHandler;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @Component
 public class BotStateMessageContext {
@@ -17,7 +18,7 @@ public class BotStateMessageContext {
         messageHandlers.forEach(handler -> this.messageHandler.put(handler.getHandlerName(), handler));
     }
 
-    public SendMessage processInputMessage(BotState botState, Message message) {
+    public SendMessage processInputMessage(BotState botState, Message message) throws ExecutionException, InterruptedException {
         SendMessage replyMessage = messageHandler.get(botState).handle(message);
 
         return replyMessage;

@@ -5,5 +5,6 @@ public enum BotState {
     ADD_COMPANY,
     DELETE_COMPANY,
     SHOW_COMPANY,
-    SHOW_MENU
+    SHOW_MENU,
+    SHOW_SHARES
 }

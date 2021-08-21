@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.sbrf.shareholderbot.botapi.botstate.BotState;
-import ru.sbrf.shareholderbot.cache.UserDataCache;
+import ru.sbrf.shareholderbot.model.UserDataCache;
 import ru.sbrf.shareholderbot.company.Company;
 import ru.sbrf.shareholderbot.service.ReplyMessageService;
 
@@ -23,12 +23,12 @@ public class DeleteCompanyHandler extends MessageWithButtonsHandler {
 
     @Override
     public SendMessage handle(Message message) {
-        Set<Company> companySet = userDataCache.getDeleteCompanySet();
+        List<Company> companySet = userDataCache.getDeleteCompanyList();
 
         SendMessage sendMessage;
         if (companySet.isEmpty()) {
-            sendMessage = replyMessageService.getReplyMessage(message.getChatId(), "reply.delete_company_none");
             userDataCache.setBotState(BotState.SHOW_MENU);
+            sendMessage = replyMessageService.getReplyMessage(message.getChatId(), "reply.delete_company_none");
         }
         else {
             sendMessage = replyMessageService.getReplyMessage(message.getChatId(), "reply.delete_company");
@@ -48,7 +48,7 @@ public class DeleteCompanyHandler extends MessageWithButtonsHandler {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
         List<InlineKeyboardButton> inlineKeyboardButtons =
-                userDataCache.getDeleteCompanySet().stream()
+                userDataCache.getDeleteCompanyList().stream()
                         .map(company -> new InlineKeyboardButton()
                         .setText(company.getNameOfCompany()).setCallbackData("button" + company.toString()))
                         .collect(Collectors.toList());

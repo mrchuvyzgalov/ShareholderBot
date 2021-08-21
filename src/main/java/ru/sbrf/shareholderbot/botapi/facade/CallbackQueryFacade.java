@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import ru.sbrf.shareholderbot.botapi.botstate.BotStateCallbackQueryContext;
-import ru.sbrf.shareholderbot.cache.UserDataCache;
+import ru.sbrf.shareholderbot.model.UserDataCache;
 
 @AllArgsConstructor
 @Component

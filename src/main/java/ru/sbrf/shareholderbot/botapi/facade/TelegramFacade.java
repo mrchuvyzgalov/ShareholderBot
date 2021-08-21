@@ -9,6 +9,8 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.concurrent.ExecutionException;
+
 @AllArgsConstructor
 @Component
 @Slf4j
@@ -16,7 +18,7 @@ public class TelegramFacade {
     private CallbackQueryFacade callbackQueryFacade;
     private InputMessageFacade inputMessageFacade;
 
-    public BotApiMethod<?> handleUpdate(Update update) {
+    public BotApiMethod<?> handleUpdate(Update update) throws ExecutionException, InterruptedException {
         SendMessage replyMessage = null;
 
         if (update.hasCallbackQuery()) {

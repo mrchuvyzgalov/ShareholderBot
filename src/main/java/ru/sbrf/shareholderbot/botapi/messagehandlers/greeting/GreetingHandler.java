@@ -6,8 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.sbrf.shareholderbot.botapi.botstate.BotState;
 import ru.sbrf.shareholderbot.botapi.messagehandlers.InputMessageHandler;
-import ru.sbrf.shareholderbot.botapi.messagehandlers.messagewithbuttons.AddCompanyHandler;
-import ru.sbrf.shareholderbot.cache.UserDataCache;
+import ru.sbrf.shareholderbot.model.UserDataCache;
 import ru.sbrf.shareholderbot.service.MainMenuService;
 import ru.sbrf.shareholderbot.service.ReplyMessageService;
 
@@ -21,6 +20,7 @@ public class GreetingHandler implements InputMessageHandler {
     @Override
     public SendMessage handle(Message message) {
         userDataCache.setBotState(BotState.SHOW_COMPANY);
+        userDataCache.setChatId(message.getChatId().toString());
 
         SendMessage replyFromMessageService = replyMessageService.getReplyMessage(message.getChatId(), "reply.greeting");
         SendMessage replyFromMainMenu = menuService.getMainMenuMessage(message.getChatId(), "Чтобы взаимодействовать со мной, пользуйтесь главным меню");
