@@ -40,7 +40,7 @@ public class SharesService {
         for (Company company : companies) {
             try {
                 List<Candle> candles = api.getMarketContext().getMarketCandles(company.getFigi(),
-                        OffsetDateTime.of(LocalDateTime.from(LocalDateTime.now().minusDays(2)), ZoneOffset.UTC),
+                        OffsetDateTime.of(LocalDateTime.from(LocalDateTime.now().minusDays(4)), ZoneOffset.UTC),
                         OffsetDateTime.of(LocalDateTime.from(LocalDateTime.now()), ZoneOffset.UTC),
                         CandleResolution.HOUR).join().get().getCandles();
 
