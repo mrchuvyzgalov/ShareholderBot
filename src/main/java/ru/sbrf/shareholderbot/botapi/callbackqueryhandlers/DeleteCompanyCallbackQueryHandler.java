@@ -19,9 +19,8 @@ public class DeleteCompanyCallbackQueryHandler implements CallbackQueryHandler {
     public BotApiMethod<?> handle(CallbackQuery callbackQuery) {
         Company company = Company.valueOf(callbackQuery.getData().substring(6));
 
-        if (userDataCache.getDeleteCompanyList().contains(company)) {
-            userDataCache.getDeleteCompanyList().remove(company);
-            userDataCache.getAddCompanyList().add(company);
+        if (userDataCache.getCompanyList().contains(company)) {
+            userDataCache.getCompanyList().remove(company);
             userDataCache.getLastPrice().remove(company);
             return replyMessageService.getReplyMessage(callbackQuery.getMessage().getChatId(), "reply.company_was_deleted");
         }

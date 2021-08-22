@@ -8,6 +8,7 @@ import ru.sbrf.shareholderbot.botapi.botstate.BotState;
 import ru.sbrf.shareholderbot.botapi.messagehandlers.InputMessageHandler;
 import ru.sbrf.shareholderbot.company.Company;
 import ru.sbrf.shareholderbot.model.UserDataCache;
+import ru.sbrf.shareholderbot.service.LocaleMessageService;
 import ru.sbrf.shareholderbot.service.SharesService;
 import ru.sbrf.shareholderbot.service.ReplyMessageService;
 
@@ -21,10 +22,11 @@ public class ShowSharesHandler implements InputMessageHandler {
     private UserDataCache userDataCache;
     private ReplyMessageService replyMessageService;
     private SharesService sharesService;
+    private LocaleMessageService localeMessageService;
 
     @Override
     public SendMessage handle(Message message) throws ExecutionException, InterruptedException {
-        List<Company> companyList = userDataCache.getDeleteCompanyList();
+        List<Company> companyList = userDataCache.getCompanyList();
 
         SendMessage sendMessage;
         if (companyList.isEmpty()) {
@@ -36,7 +38,7 @@ public class ShowSharesHandler implements InputMessageHandler {
             Map<Company, String> shares = sharesService.getShares(companyList);
 
             for (var entry : shares.entrySet()) {
-                if (entry.getValue() != "Нет информации") {
+                if (entry.getValue() != localeMessageService.getMessage("reply.no_info")) {
                     userDataCache.getLastPrice().put(entry.getKey(), Double.parseDouble(entry.getValue()));
                 }
             }

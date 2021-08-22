@@ -7,13 +7,14 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.sbrf.shareholderbot.botapi.botstate.BotState;
 import ru.sbrf.shareholderbot.botapi.messagehandlers.InputMessageHandler;
 import ru.sbrf.shareholderbot.model.UserDataCache;
+import ru.sbrf.shareholderbot.service.LocaleMessageService;
 import ru.sbrf.shareholderbot.service.MainMenuService;
 import ru.sbrf.shareholderbot.service.ReplyMessageService;
 
 @AllArgsConstructor
 @Component
 public class GreetingHandler implements InputMessageHandler {
-    private ReplyMessageService replyMessageService;
+    private LocaleMessageService localeMessageService;
     private UserDataCache userDataCache;
     private MainMenuService menuService;
 
@@ -22,13 +23,7 @@ public class GreetingHandler implements InputMessageHandler {
         userDataCache.setBotState(BotState.SHOW_COMPANY);
         userDataCache.setChatId(message.getChatId().toString());
 
-        SendMessage replyFromMessageService = replyMessageService.getReplyMessage(message.getChatId(), "reply.greeting");
-        SendMessage replyFromMainMenu = menuService.getMainMenuMessage(message.getChatId(), "Чтобы взаимодействовать со мной, пользуйтесь главным меню");
-
-        String replyMessage = replyFromMessageService.getText() + "\n" + replyFromMainMenu.getText();
-        replyFromMainMenu.setText(replyMessage);
-
-        return replyFromMainMenu;
+        return menuService.getMainMenuMessage(message.getChatId(), localeMessageService.getMessage("reply.greeting"));
     }
 
     @Override

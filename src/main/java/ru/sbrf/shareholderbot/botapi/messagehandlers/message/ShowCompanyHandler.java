@@ -11,7 +11,6 @@ import ru.sbrf.shareholderbot.company.Company;
 import ru.sbrf.shareholderbot.service.ReplyMessageService;
 
 import java.util.List;
-import java.util.Set;
 
 @AllArgsConstructor
 @Component
@@ -23,7 +22,7 @@ public class ShowCompanyHandler implements InputMessageHandler {
     public SendMessage handle(Message message) {
         userDataCache.setBotState(BotState.SHOW_MENU);
 
-        List<Company> companyList = userDataCache.getDeleteCompanyList();
+        List<Company> companyList = userDataCache.getCompanyList();
 
         SendMessage sendMessage;
 

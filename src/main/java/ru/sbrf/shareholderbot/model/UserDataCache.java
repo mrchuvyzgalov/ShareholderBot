@@ -14,13 +14,6 @@ import java.util.*;
 public class UserDataCache {
     private String chatId = "";
     private BotState botState;
-    private List<Company> deleteCompanyList = new ArrayList<>();
+    private List<Company> companyList = new ArrayList<>();
     private Map<Company, Double> lastPrice = new HashMap<>();
-    private List<Company> addCompanyList = new ArrayList<>();
-
-    public UserDataCache() {
-        Arrays.stream(Company.values())
-                .filter(company -> !deleteCompanyList.contains(company))
-                .forEach(company -> addCompanyList.add(company));
-    }
 }

@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import ru.sbrf.shareholderbot.botapi.botstate.BotState;
 import ru.sbrf.shareholderbot.model.UserDataCache;
 import ru.sbrf.shareholderbot.company.Company;
+import ru.sbrf.shareholderbot.service.LocaleMessageService;
 import ru.sbrf.shareholderbot.service.SharesService;
 import ru.sbrf.shareholderbot.service.ReplyMessageService;
 
@@ -17,20 +18,20 @@ public class AddCompanyCallbackQueryHandler implements CallbackQueryHandler {
     private ReplyMessageService replyMessageService;
     private UserDataCache userDataCache;
     private SharesService sharesService;
+    private LocaleMessageService localeMessageService;
 
     @Override
     public BotApiMethod<?> handle(CallbackQuery callbackQuery) {
         Company company = Company.valueOf(callbackQuery.getData().substring(6));
 
-        if (!userDataCache.getDeleteCompanyList().contains(company)) {
-            userDataCache.getDeleteCompanyList().add(company);
-            userDataCache.getAddCompanyList().remove(company);
+        if (!userDataCache.getCompanyList().contains(company)) {
+            userDataCache.getCompanyList().add(company);
 
             String price = sharesService.getShares(company);
 
             SendMessage answerMessage = replyMessageService.getReplyMessage(callbackQuery.getMessage().getChatId(), "reply.company_was_added");
 
-            if (price != "Нет информации") {
+            if (!price.equals(localeMessageService.getMessage("reply.no_info"))) {
                 userDataCache.getLastPrice().put(company, Double.parseDouble(price));
 
                 SendMessage addition = replyMessageService.getReplyMessage(callbackQuery.getMessage().getChatId(), "reply.show_share");

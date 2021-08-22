@@ -12,7 +12,6 @@ import ru.sbrf.shareholderbot.company.Company;
 import ru.sbrf.shareholderbot.service.ReplyMessageService;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -23,7 +22,7 @@ public class DeleteCompanyHandler extends MessageWithButtonsHandler {
 
     @Override
     public SendMessage handle(Message message) {
-        List<Company> companySet = userDataCache.getDeleteCompanyList();
+        List<Company> companySet = userDataCache.getCompanyList();
 
         SendMessage sendMessage;
         if (companySet.isEmpty()) {
@@ -48,7 +47,7 @@ public class DeleteCompanyHandler extends MessageWithButtonsHandler {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
         List<InlineKeyboardButton> inlineKeyboardButtons =
-                userDataCache.getDeleteCompanyList().stream()
+                userDataCache.getCompanyList().stream()
                         .map(company -> new InlineKeyboardButton()
                         .setText(company.getNameOfCompany()).setCallbackData("button" + company.toString()))
                         .collect(Collectors.toList());

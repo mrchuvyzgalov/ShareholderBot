@@ -14,32 +14,31 @@ import java.util.Map;
 @Slf4j
 @Service
 public class SubscriptionService {
-    @Value("${tinkoffToken}")
-    private String token;
-    @Value("${isSandBoxMode}")
-    private boolean isSandBoxMode;
     @Value("${persent}")
     private Double persent;
 
     private ShareholderTelegramBot telegramBot;
     private UserDataCache userDataCache;
     private SharesService sharesService;
+    private LocaleMessageService localeMessageService;
     private ReplyMessageService replyMessageService;
 
-    public SubscriptionService(UserDataCache userDataCache, SharesService sharesService, ShareholderTelegramBot telegramBot) {
+    public SubscriptionService(UserDataCache userDataCache, SharesService sharesService, ShareholderTelegramBot telegramBot, LocaleMessageService localeMessageService, ReplyMessageService replyMessageService) {
         this.userDataCache = userDataCache;
         this.sharesService = sharesService;
         this.telegramBot = telegramBot;
+        this.localeMessageService = localeMessageService;
+        this.replyMessageService = replyMessageService;
     }
 
     @Scheduled(fixedRateString = "${subscriptions.processPeriod}")
     public void processSubscription() {
         log.info("Start of subscription process for chatId: {}", userDataCache.getChatId());
 
-        Map<Company, String> companyStringMap = sharesService.getShares(userDataCache.getDeleteCompanyList());
+        Map<Company, String> companyStringMap = sharesService.getShares(userDataCache.getCompanyList());
 
         for (var entry : companyStringMap.entrySet()) {
-            if (entry.getValue() != "Нет информации") {
+            if (entry.getValue() != localeMessageService.getMessage("reply.no_info")) {
                 Double tmpPrice = Double.parseDouble(entry.getValue());
                 Double lastPrice = userDataCache.getLastPrice().get(entry.getKey());
 
